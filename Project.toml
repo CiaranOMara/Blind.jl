@@ -2,3 +2,20 @@ name = "Blind"
 uuid = "16680162-71ce-4a79-8db7-279ca9382b4f"
 authors = ["Ciarán O'Mara <Ciaran.OMara@utas.edu.au>"]
 version = "0.1.0"
+
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+CSVFiles = "5d742f6a-9f54-50ce-8119-2520741973ca"
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
