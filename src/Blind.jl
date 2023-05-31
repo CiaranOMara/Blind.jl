@@ -60,9 +60,25 @@ function _nt(path_original::AbstractString, path_blind::AbstractString)
     return NamedTuple{(:original, :blind),Tuple{String,String}}((path_original, path_blind))
 end
 
-function blind(dir_input::AbstractString, dir_output::AbstractString, path_key::AbstractString; num_sets::Int = DEFAULT_SETS, num_numeric::Int = DEFAULT_NUMERIC)
-
+function check_dir_input(dir_input::AbstractString)
     isdir(dir_input) || error("Input $dir_input is not a directory.")
+end
+
+function generate_dir_output(dir_input::AbstractString)
+    check_dir_input(dir_input)
+    delim = contains(splitpath(dir_input)[end], " ") ? " " : "-"
+    return rstrip(abspath(dir_input), only(Base.Filesystem.path_separator)) * delim * "blind"
+end
+
+function generate_path_key(dir_input::AbstractString)
+    check_dir_input(dir_input)
+    # return rstrip(abspath(dir_input), only(Base.Filesystem.path_separator)) * ".csv"
+    return joinpath(dir_input, "key.csv")
+end
+
+function blind(dir_input::AbstractString, dir_output::AbstractString=generate_dir_output(dir_input), path_key::AbstractString=generate_path_key(dir_input); num_sets::Int = DEFAULT_SETS, num_numeric::Int = DEFAULT_NUMERIC)
+
+    check_dir_input(dir_input)
 
     mkpath(dir_output)
 
@@ -91,11 +107,11 @@ end
 function blind(dict::Dict)
 
     if dict["key"] === nothing
-        dict["key"] = joinpath(dict["input"], "key.csv")
+        dict["key"] = generate_path_key(dict["input"])
     end
 
     if dict["output"] === nothing
-        dict["output"] = string(dict["input"], "-blind")
+        dict["output"] = generate_dir_output(dict["input"])
     end
 
     return blind(dict["input"], dict["output"], dict["key"], num_sets = dict["sets"], num_numeric = dict["numeric"])

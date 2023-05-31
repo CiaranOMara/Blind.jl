@@ -46,11 +46,10 @@ end
     paths_original = joinpath.(dir_input, files_original)
     touch.(paths_original)
 
-    path_key = joinpath(dir_input, "key.csv")
-
     @testset "Procedure" begin
 
-        dir_output = joinpath(@__DIR__, "output")
+        dir_output = Blind.generate_dir_output(dir_input)
+        path_key = Blind.generate_path_key(dir_input)
 
         blind(dir_input, dir_output, path_key)
 
@@ -64,6 +63,24 @@ end
 
     end # testset Procedure
 
+    @testset "Procedure (lazy)" begin
+
+        dir_output = Blind.generate_dir_output(dir_input)
+        path_key = Blind.generate_path_key(dir_input)
+
+        blind(dir_input)
+
+        @test isdir(dir_output)
+        @test isfile(path_key)
+
+        test_output(path_key)
+
+        # Clean up.
+        rm(dir_output, recursive = true)
+        rm(path_key)
+
+    end # testset Procedure (lazy)
+
     @testset "Script" begin
         script = joinpath(@__DIR__, "..", "blind.sh")
 
@@ -73,7 +90,8 @@ end
             run(`bash $script $dir_input`)
         end
 
-        dir_output = joinpath(@__DIR__, "input-blind")
+        dir_output = Blind.generate_dir_output(dir_input)
+        path_key = Blind.generate_path_key(dir_input)
 
         @test isdir(dir_output)
 

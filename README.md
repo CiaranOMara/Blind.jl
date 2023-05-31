@@ -11,9 +11,29 @@ This script blinds files by copying and renaming them with a random set of chara
 ## Installation
     (v1.1) pkg> add https://github.com/CiaranOMara/Blind.jl
 
-## Usage (Unix like systems)
+## Usage
+
 If the `blind.sh` script is executable and locatable by your `PATH` variable, you can call it by executing `blind.sh` at the prompt.
 Otherwise, run the script at the prompt with `sh blind.sh` or `julia blind.sh`.
+
+```
+usage: blind.sh [-s SETS] [-n NUMERIC] [-h] input [output] [key]
+
+positional arguments:
+  input                 Input directory.
+  output                Output directory.
+  key                   Key file (.csv).
+
+optional arguments:
+  -s, --sets SETS       Number of numeric sets. (type: Int64, default:
+                        3)
+  -n, --numeric NUMERIC
+                        Number of numeric characters. (type: Int64,
+                        default: 4)
+  -h, --help            show this help message and exit
+```
+
+## Optional (Unix like systems)
 
 To make the script executable, grant execution privileges to the bash script.
 ```console
